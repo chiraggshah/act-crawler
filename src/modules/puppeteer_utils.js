@@ -379,3 +379,30 @@ export const infiniteScroll = async (page, maxHeight) => {
     logError("An exception thrown in infiniteScroll()", err);
   }
 };
+
+export const abortRequestIfMedia = (page, request) => {
+  const blacklistedResourceTypes = [
+    "ping",
+    "font",
+    "image",
+    "media",
+    "beacon",
+    "imageset",
+    "csp_report",
+    "stylesheet",
+  ];
+  const blackListedExtensions = new RegExp(
+    /\.(png|jpeg|jpg|png|pdf|css|wav|ogg|cur|gif|svg|css|map|zip|tif)$/
+  );
+
+  page.on("request", request => {
+    if (
+      blackListedExtensions.test(request.url) ||
+      blacklistedResourceTypes.includes(request.resourceType)
+    ) {
+      request.abort();
+    } else {
+      request.continue();
+    }
+  });
+};

@@ -280,6 +280,10 @@ export default class Crawler extends EventEmitter {
       if (this.crawlerConfig.cookies && this.crawlerConfig.cookies.length) {
         await page.setCookie(...this.crawlerConfig.cookies);
       }
+
+      await page.setRequestInterception(true);
+      utils.abortRequestIfMedia(page, request);
+
       await page.goto(request.url, this.gotoOptions);
       await this._processRequest(page, request);
       clearTimeout(timeout);
