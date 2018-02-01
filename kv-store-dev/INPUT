@@ -2,21 +2,19 @@
     "startUrls": [
         {
             "key": "",
-            "value": "https://news.ycombinator.com"
+            "value": "https://promote.3m.com/"
         }
     ],
     "crawlPurls": [
         {
             "key": "something",
-            "value": "https://news.ycombinator.com/news?p=[\\d+]"
+            "value": "https://promote.3m.com/[.*]"
         }
     ],
-    "maxParallelRequests": 1,
+    "maxParallelRequests": 10,
     "injectJQuery": true,
-    "pageFunction": "function pageFunction(context) { context.willFinishLater(); setTimeout(() => context.finish([{ a: context.jQuery('title').text(), foo: 'bar' }, 'aaa']), 500); }",
-    "clickableElementsSelector": "a",
-    "maxCrawlDepth": 5,
-    "slowMo": 500,
+    "pageFunction": "function pageFunction(context) { context.willFinishLater(); setTimeout(() => context.finish({ title: context.jQuery('title').text() }), 500); }",
+    "clickableElementsSelector": "a:not([rel=nofollow])",
     "disableWebSecurity": true,
     "saveSimplifiedResults": true,
     "fullStackTrace": true
