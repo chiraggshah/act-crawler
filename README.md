@@ -6,7 +6,7 @@
 
 **WARNING 2:** It's also **unstable** and every version may contain **breaking changes**.
 
-## Usage
+## Usage:
 
 There are two ways how to use this act:
 
