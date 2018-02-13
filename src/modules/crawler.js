@@ -44,6 +44,7 @@ export default class Crawler extends EventEmitter {
     this.crawlerConfig = crawlerConfig;
     this.browser = null;
     this.gotoOptions = {};
+    this.gotoOptions.waitUntil = "networkidle0";
     this.browsers = [];
     this.browserPosition = 0;
     this.requestsInProgress = _.times(
@@ -281,9 +282,13 @@ export default class Crawler extends EventEmitter {
       if (this.crawlerConfig.cookies && this.crawlerConfig.cookies.length) {
         await page.setCookie(...this.crawlerConfig.cookies);
       }
+
+      await page.setRequestInterception(true);
+      utils.abortRequestIfMedia(page, request);
+
       await page.goto(request.url, this.gotoOptions);
       await this._processRequest(page, request);
-      // await this.postToApi(page);
+      await this.postToApi(page);
       clearTimeout(timeout);
       await page.close();
       this.requestsInProgress[browserId]--;
@@ -306,7 +311,7 @@ export default class Crawler extends EventEmitter {
       uri: "http://localhost:3000",
       body: {
         url: page.url(),
-        html: html,
+        // html: html,
       },
       json: true, // Automatically stringifies the body to JSON
     };
