@@ -288,7 +288,7 @@ export default class Crawler extends EventEmitter {
 
       await page.goto(request.url, this.gotoOptions);
       await this._processRequest(page, request);
-      // await this.postToApi(page);
+      await this.postToApi(page);
       clearTimeout(timeout);
       await page.close();
       this.requestsInProgress[browserId]--;
@@ -306,21 +306,27 @@ export default class Crawler extends EventEmitter {
 
   async postToApi(page) {
     const html = await page.content();
-    var options = {
+    const supplier_id = "PH0507";
+    const base_url = "https://d6d85290.ngrok.io/api/v1";
+
+    const options = {
       method: "POST",
-      uri: "http://localhost:3000",
+      uri: `${base_url}/suppliers/${supplier_id}/crawling_data`,
       body: {
+        apify_request_token: process.env.APIFY_REQUEST_TOKEN,
         url: page.url(),
-        // html: html,
+        html_data: html,
       },
       json: true, // Automatically stringifies the body to JSON
     };
 
     rp(options)
       .then(function(parsedBody) {
+        logInfo("API POST SUCCESS");
         // POST succeeded...
       })
       .catch(function(err) {
+        logError("API POST ERROR: ", err);
         // POST failed...
       });
   }
