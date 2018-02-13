@@ -288,7 +288,7 @@ export default class Crawler extends EventEmitter {
 
       await page.goto(request.url, this.gotoOptions);
       await this._processRequest(page, request);
-      await this.postToApi(page);
+      // await this.postToApi(page);
       clearTimeout(timeout);
       await page.close();
       this.requestsInProgress[browserId]--;
