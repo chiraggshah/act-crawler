@@ -2,22 +2,28 @@
     "startUrls": [
         {
             "key": "",
-            "value": "https://news.ycombinator.com"
+            "value": "https://www.themagnetgroup.com"
         }
     ],
     "crawlPurls": [
         {
-            "key": "something",
-            "value": "https://news.ycombinator.com/news?p=[\\d+]"
+            "key": "product",
+            "value": "https://www.themagnetgroup.com/[.*]"
         }
     ],
-    "maxParallelRequests": 1,
+    "maxParallelRequests": 20,
     "injectJQuery": true,
-    "pageFunction": "function pageFunction(context) { context.willFinishLater(); setTimeout(() => context.finish([{ a: context.jQuery('title').text(), foo: 'bar' }, 'aaa']), 500); }",
-    "clickableElementsSelector": "a",
-    "maxCrawlDepth": 5,
-    "slowMo": 500,
+    "pageFunction": "function pageFunction(context) { context.willFinishLater(); setTimeout(() => context.finish({ title: context.jQuery('title').text(), url: context.jQuery(location).attr('href') }), 500); }",
+    "clickableElementsSelector": "a:not([rel=nofollow])",
+    "maxCrawlDepth": 6,
     "disableWebSecurity": true,
     "saveSimplifiedResults": true,
-    "fullStackTrace": true
+    "fullStackTrace": true,
+    "loadImages": false,
+    "loadCss": false,
+    "verboseLog": true,
+    "customData": {
+      "supplierId": "PH0507"
+    },
+    "maxCrawledPages": 10
 }

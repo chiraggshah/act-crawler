@@ -4,9 +4,11 @@
   "description": "Web crawler running at Apify platform.",
   "main": "main.js",
   "scripts": {
-    "local": "npm run build && APIFY_DEV_KEY_VALUE_STORE_DIR=./kv-store-dev/ node main.js",
+    "local":
+      "npm run build && BASE_URL=http://localhost:3000/api/v1 APIFY_DEV_KEY_VALUE_STORE_DIR=./kv-store-dev/ node main.js",
     "build": "babel src --out-dir build",
-    "test": "npm run build && mocha --timeout 5000 --compilers js:babel-core/register --recursive",
+    "test":
+      "npm run build && mocha --timeout 5000 --compilers js:babel-core/register --recursive",
     "clean": "rm -rf build && rm -rf docs",
     "lint": "eslint src test"
   },
@@ -45,12 +47,7 @@
     "mocha": "^3.2.0",
     "sinon": "^2.2.0"
   },
-  "keywords": [
-    "crawler",
-    "apify",
-    "act",
-    "scraper"
-  ],
+  "keywords": ["crawler", "apify", "act", "scraper"],
   "author": "Marek Trunkát",
   "license": "ALv2"
 }

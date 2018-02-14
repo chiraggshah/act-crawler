@@ -306,12 +306,11 @@ export default class Crawler extends EventEmitter {
 
   async postToApi(page) {
     const html = await page.content();
-    const supplier_id = "PH0507";
-    const base_url = "https://d6d85290.ngrok.io/api/v1";
+    const supplierId = this.crawlerConfig.customData.supplierId;
 
     const options = {
       method: "POST",
-      uri: `${base_url}/suppliers/${supplier_id}/crawling_data`,
+      uri: `${process.env.BASE_URL}/suppliers/${supplierId}/crawling_data`,
       body: {
         apify_request_token: process.env.APIFY_REQUEST_TOKEN,
         url: page.url(),
