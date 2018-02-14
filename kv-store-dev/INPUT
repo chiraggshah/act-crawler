@@ -2,13 +2,13 @@
     "startUrls": [
         {
             "key": "",
-            "value": "https://www.themagnetgroup.com"
+            "value": "http://primeline.com"
         }
     ],
     "crawlPurls": [
         {
             "key": "product",
-            "value": "https://www.themagnetgroup.com/[.*]"
+            "value": "http://primeline.com/[.*]"
         }
     ],
     "maxParallelRequests": 20,
