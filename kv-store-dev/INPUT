@@ -2,16 +2,16 @@
     "startUrls": [
         {
             "key": "",
-            "value": "http://primeline.com"
+            "value": "https://glassamerica.com"
         }
     ],
     "crawlPurls": [
         {
             "key": "product",
-            "value": "http://primeline.com/[.*]"
+            "value": "https://glassamerica.com/[.*]"
         }
     ],
-    "maxParallelRequests": 20,
+    "maxParallelRequests": 10,
     "injectJQuery": true,
     "pageFunction": "function pageFunction(context) { context.willFinishLater(); setTimeout(() => context.finish({ title: context.jQuery('title').text(), url: context.jQuery(location).attr('href') }), 500); }",
     "clickableElementsSelector": "a:not([rel=nofollow])",
@@ -25,5 +25,5 @@
     "customData": {
       "supplierId": "PH0507"
     },
-    "maxCrawledPages": 10
+    "considerUrlFragment": true
 }
