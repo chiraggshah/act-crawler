@@ -34,6 +34,7 @@ const PUPPETEER_CONFIG = {
   dumpio: NODE_ENV !== "production",
   slowMo: 0,
   args: [],
+  // headless: true,
 };
 
 const LOG_INTERVAL_MILLIS = 10000;
@@ -44,7 +45,7 @@ export default class Crawler extends EventEmitter {
     this.crawlerConfig = crawlerConfig;
     this.browser = null;
     this.gotoOptions = {};
-    this.gotoOptions.waitUntil = "networkidle0";
+    this.gotoOptions.waitUntil = "networkidle2";
     this.browsers = [];
     this.browserPosition = 0;
     this.requestsInProgress = _.times(
@@ -288,7 +289,7 @@ export default class Crawler extends EventEmitter {
 
       await page.goto(request.url, this.gotoOptions);
       await this._processRequest(page, request);
-      await this.postToApi(page);
+      await this.postToApi(page, request.url);
       clearTimeout(timeout);
       await page.close();
       this.requestsInProgress[browserId]--;
@@ -304,7 +305,7 @@ export default class Crawler extends EventEmitter {
     }
   }
 
-  async postToApi(page) {
+  async postToApi(page, url) {
     const html = await page.content();
     const supplierId = this.crawlerConfig.customData.supplierId;
 
@@ -313,7 +314,7 @@ export default class Crawler extends EventEmitter {
       uri: `${process.env.BASE_URL}/suppliers/${supplierId}/crawling_data`,
       body: {
         apify_request_token: process.env.APIFY_REQUEST_TOKEN,
-        url: page.url(),
+        url: url,
         html_data: html,
       },
       json: true, // Automatically stringifies the body to JSON
