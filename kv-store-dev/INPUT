@@ -25,5 +25,6 @@
     "customData": {
       "supplierId": "PH0507"
     },
-    "considerUrlFragment": true
+    "considerUrlFragment": true,
+    "pageLoadTimeout": 60000
 }
