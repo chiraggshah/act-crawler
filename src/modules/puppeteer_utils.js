@@ -384,7 +384,6 @@ export const abortRequestIfMedia = (page, request) => {
   const blacklistedResourceTypes = [
     "ping",
     "font",
-    "image",
     "media",
     "beacon",
     "imageset",
@@ -392,7 +391,7 @@ export const abortRequestIfMedia = (page, request) => {
     "stylesheet",
   ];
   const blackListedExtensions = new RegExp(
-    /\.(png|jpeg|jpg|png|pdf|css|wav|ogg|cur|gif|svg|css|map|zip|tif)$/
+    /\.(pdf|wav|ogg|cur|gif|svg|css|map|zip|tif)$/
   );
 
   page.on("request", request => {
