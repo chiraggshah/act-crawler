@@ -20,7 +20,7 @@ import Apify from "apify";
 import _ from "underscore";
 import EventEmitter from "events";
 import Promise from "bluebird";
-import { logError, logDebug, logInfo, sum } from "./utils";
+import { logError, logDebug, logInfo, sum, processHtml } from "./utils";
 import * as utils from "./puppeteer_utils";
 import Request, { TYPES as REQUEST_TYPES } from "./request";
 import rp from "request-promise";
@@ -305,8 +305,9 @@ export default class Crawler extends EventEmitter {
     }
   }
 
-  async postToApi(page, url) {
+  async postToApi(page, requestUrl) {
     const html = await page.content();
+    const processedHtml = processHtml(html, requestUrl);
     const supplierId = this.crawlerConfig.customData.supplierId;
 
     const options = {
@@ -314,8 +315,8 @@ export default class Crawler extends EventEmitter {
       uri: `${process.env.BASE_URL}/suppliers/${supplierId}/crawling_data`,
       body: {
         apify_request_token: process.env.APIFY_REQUEST_TOKEN,
-        url: url,
-        html_data: html,
+        url: requestUrl,
+        html_data: processedHtml,
       },
       json: true, // Automatically stringifies the body to JSON
     };

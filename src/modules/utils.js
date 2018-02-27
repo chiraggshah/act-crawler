@@ -7,6 +7,8 @@ import Apify from "apify";
 import uuidv4 from "uuid/v4";
 import Promise from "bluebird";
 import { parseType, parsedTypeCheck } from "type-check";
+import { JSDOM } from "jsdom";
+import url from "url";
 
 const { NODE_ENV } = process.env;
 const SET_VALUE_MAX_REPEATS = 10;
@@ -253,4 +255,17 @@ export const deleteNullProperties = obj => {
   _.mapObject(obj, (val, key) => {
     if (val === null) delete obj[key];
   });
+};
+
+export const processHtml = (html, requestUrl) => {
+  const dom = new JSDOM(html);
+  const imgTags = dom.window.document.querySelectorAll("img");
+
+  for (let i = 0; i < imgTags.length; ++i) {
+    const originalLink = imgTags[i].getAttribute("src");
+    const myURL = url.resolve(requestUrl, originalLink);
+    imgTags[i].src = myURL;
+  }
+
+  return dom.serialize();
 };

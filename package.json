@@ -4,11 +4,9 @@
   "description": "Web crawler running at Apify platform.",
   "main": "main.js",
   "scripts": {
-    "local":
-      "npm run build && BASE_URL=http://localhost:3000/api/v1 APIFY_DEV_KEY_VALUE_STORE_DIR=./kv-store-dev/ node main.js",
+    "local": "npm run build && BASE_URL=http://localhost:3000/api/v1 APIFY_DEV_KEY_VALUE_STORE_DIR=./kv-store-dev/ node main.js",
     "build": "babel src --out-dir build",
-    "test":
-      "npm run build && mocha --timeout 5000 --compilers js:babel-core/register --recursive",
+    "test": "npm run build && mocha --timeout 5000 --compilers js:babel-core/register --recursive",
     "clean": "rm -rf build && rm -rf docs",
     "lint": "eslint src test"
   },
@@ -23,12 +21,14 @@
     "bluebird": "^3.5.1",
     "event-loop-stats": "^1.0.0",
     "jquery": "^3.2.1",
+    "jsdom": "^11.6.2",
     "proxy-chain": "^0.1.12",
     "puppeteer": "^0.13.0",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
     "type-check": "^0.3.2",
     "underscore": "^1.8.3",
+    "url": "^0.11.0",
     "uuid": "^3.1.0"
   },
   "devDependencies": {
@@ -47,7 +47,12 @@
     "mocha": "^3.2.0",
     "sinon": "^2.2.0"
   },
-  "keywords": ["crawler", "apify", "act", "scraper"],
+  "keywords": [
+    "crawler",
+    "apify",
+    "act",
+    "scraper"
+  ],
   "author": "Marek Trunkát",
   "license": "ALv2"
 }
