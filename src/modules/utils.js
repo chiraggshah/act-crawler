@@ -263,9 +263,10 @@ export const processHtml = (html, requestUrl) => {
 
   for (let i = 0; i < imgTags.length; ++i) {
     const originalLink = imgTags[i].getAttribute("src");
-    const myURL = url.resolve(requestUrl, originalLink);
-    imgTags[i].src = myURL;
+    if (originalLink) {
+      const myURL = url.resolve(requestUrl, originalLink);
+      imgTags[i].src = myURL;
+    }
   }
-
   return dom.serialize();
 };
