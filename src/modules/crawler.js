@@ -34,7 +34,7 @@ const PUPPETEER_CONFIG = {
   dumpio: NODE_ENV !== "production",
   slowMo: 0,
   args: [],
-  // headless: true,
+  headless: true,
 };
 
 const LOG_INTERVAL_MILLIS = 10000;
