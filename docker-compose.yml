@@ -1,0 +1,63 @@
+version: '3.5'
+
+services:
+  crawlera:
+    build: 
+      context: .
+    shm_size: '4g'
+    volumes:
+      - /home/ec2-user/supplier_crawler_config:/tmp/supplier_crawler_config
+    privileged: true
+    environment:
+      NODE_ENV: 'production'
+      APIFY_DEV_KEY_VALUE_STORE_DIR: '/tmp/supplier_crawler_config/A'
+      BASE_URL: 'https://promohunt-crawler.herokuapp.com/api/v1'
+      APIFY_REQUEST_TOKEN: 'xxx'
+  crawlerb:
+    build: 
+      context: .
+    shm_size: '4g'
+    volumes:
+      - /home/ec2-user/supplier_crawler_config:/tmp/supplier_crawler_config
+    privileged: true
+    environment:
+      NODE_ENV: 'production'
+      APIFY_DEV_KEY_VALUE_STORE_DIR: '/tmp/supplier_crawler_config/B'
+      BASE_URL: 'https://promohunt-crawler.herokuapp.com/api/v1'
+      APIFY_REQUEST_TOKEN: 'xxx'
+  crawlerc:
+    build: 
+      context: .
+    shm_size: '4g'
+    volumes:
+      - /home/ec2-user/supplier_crawler_config:/tmp/supplier_crawler_config
+    privileged: true
+    environment:
+      NODE_ENV: 'production'
+      APIFY_DEV_KEY_VALUE_STORE_DIR: '/tmp/supplier_crawler_config/C'
+      BASE_URL: 'https://promohunt-crawler.herokuapp.com/api/v1'
+      APIFY_REQUEST_TOKEN: 'xxx'
+  crawlerd:
+    build: 
+      context: .
+    shm_size: '4g'
+    volumes:
+      - /home/ec2-user/supplier_crawler_config:/tmp/supplier_crawler_config
+    privileged: true
+    environment:
+      NODE_ENV: 'production'
+      APIFY_DEV_KEY_VALUE_STORE_DIR: '/tmp/supplier_crawler_config/D'
+      BASE_URL: 'https://promohunt-crawler.herokuapp.com/api/v1'
+      APIFY_REQUEST_TOKEN: 'xxx'
+  crawlere:
+    build: 
+      context: .
+    shm_size: '4g'
+    volumes:
+      - /home/ec2-user/supplier_crawler_config:/tmp/supplier_crawler_config
+    privileged: true
+    environment:
+      NODE_ENV: 'production'
+      APIFY_DEV_KEY_VALUE_STORE_DIR: '/tmp/supplier_crawler_config/E'
+      BASE_URL: 'https://promohunt-crawler.herokuapp.com/api/v1'
+      APIFY_REQUEST_TOKEN: 'xxx'
