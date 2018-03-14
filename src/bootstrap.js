@@ -151,15 +151,15 @@ const eventLoopInfoInterval = setInterval(() => {
 }, 30 * 1000);
 
 // This prints memory usage of all processes every 30s.
-const memoryInfoInterval = setInterval(() => {
-  const cmd = path.join(__dirname, "..", "get_memory_usage.sh");
-  const opts = { maxBuffer: 10 * 1024 * 1024 };
+// const memoryInfoInterval = setInterval(() => {
+//   const cmd = path.join(__dirname, "..", "get_memory_usage.sh");
+//   const opts = { maxBuffer: 10 * 1024 * 1024 };
 
-  childProcess.exec(cmd, opts, (err, stdOut, stdErr) => {
-    if (err || stdErr) logError("Cannot get memory", err || stdErr);
-    logInfo(`Memory: ${stdOut}`);
-  });
-}, 30 * 1000);
+//   childProcess.exec(cmd, opts, (err, stdOut, stdErr) => {
+//     if (err || stdErr) logError("Cannot get memory", err || stdErr);
+//     logInfo(`Memory: ${stdOut}`);
+//   });
+// }, 30 * 1000);
 
 /**
  * This is the main function that runs just once and then act gets finished.
@@ -306,7 +306,7 @@ Apify.main(async () => {
   pool.destroy();
   if (urlList) urlList.destroy();
   clearInterval(eventLoopInfoInterval);
-  clearInterval(memoryInfoInterval);
+  // clearInterval(memoryInfoInterval);
 
   // Apify.setValue() is called asynchronously on events so we need to await all the pending
   // requests.
