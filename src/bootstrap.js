@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * This module is main file of the act.
  * Initializes all the components and closes all the resources.
@@ -30,6 +31,7 @@ import LocalSequentialStore, {
   STATE_KEY as SEQ_STORE_STATE_KEY,
 } from "./modules/local_sequential_store";
 import UrlList, { STATE_KEY as URL_LIST_STATE_KEY } from "./modules/url_list";
+import rp from 'request-promise';
 
 const { APIFY_ACT_ID, APIFY_ACT_RUN_ID, NODE_ENV } = process.env;
 
@@ -311,7 +313,30 @@ Apify.main(async () => {
   // Apify.setValue() is called asynchronously on events so we need to await all the pending
   // requests.
   await waitForPendingSetValues();
+  await postStatusToAPI("Completed", input.customData.supplierId);
 });
+
+const postStatusToAPI = async (status, supplierId) => {
+
+  const options = {
+    method: "POST",
+    uri: `${process.env.BASE_URL}/suppliers/${supplierId}/crawling_status`,
+    body: { status },
+    json: true, // Automatically stringifies the body to JSON
+  };
+
+  console.log(options);
+
+  return rp(options)
+    .then(function(parsedBody) {
+      console.log("STATUS POST SUCCESS");
+      // POST succeeded...
+    })
+    .catch(function(err) {
+      console.log("STATUS POST ERROR: ", err);
+      // POST failed...
+    });
+};
 
 // @TODO: remove - this is attempt to test memory leak
 // TMP test - trying to kill process every 1,5h
