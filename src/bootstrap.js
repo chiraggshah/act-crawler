@@ -301,8 +301,8 @@ Apify.main(async () => {
 
   // Cleanup resources - intervals, etc ...
   await crawler.destroy();
-  sequentialStore.destroy();
-  pageQueue.destroy();
+  // sequentialStore.destroy();
+  // pageQueue.destroy();
   pool.destroy();
   if (urlList) urlList.destroy();
   clearInterval(eventLoopInfoInterval);
