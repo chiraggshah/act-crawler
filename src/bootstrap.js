@@ -41,6 +41,15 @@ process.on("unhandledRejection", err =>
   logError("Unhanled promise rejection", err)
 );
 
+const { exec } = require('child_process');
+
+process.on('exit', code => {
+  console.log(`process exited with code ${code}`);
+  if (code !== 0) {
+    exec(`curl -X POST ${process.env.BASE_URL}/suppliers/${process.env.SUPPLIER_ID}/crawling_status -d status=Error`);
+  }
+});
+
 const INPUT_DEFAULTS = {
   maxPageRetryCount: 3,
   minParallelRequests: 20,
@@ -313,14 +322,13 @@ Apify.main(async () => {
   // Apify.setValue() is called asynchronously on events so we need to await all the pending
   // requests.
   await waitForPendingSetValues();
-  await postStatusToAPI("Completed", input.customData.supplierId);
+  await postStatusToAPI("Completed");
 });
 
-const postStatusToAPI = async (status, supplierId) => {
-
+const postStatusToAPI = async (status) => {
   const options = {
     method: "POST",
-    uri: `${process.env.BASE_URL}/suppliers/${supplierId}/crawling_status`,
+    uri: `${process.env.BASE_URL}/suppliers/${process.env.SUPPLIER_ID}/crawling_status`,
     body: { status },
     json: true, // Automatically stringifies the body to JSON
   };

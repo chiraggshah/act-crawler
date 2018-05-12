@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * This module is implementation of crawler.
  *
@@ -308,11 +309,10 @@ export default class Crawler extends EventEmitter {
   async postToApi(page, requestUrl) {
     const html = await page.content();
     const processedHtml = processHtml(html, requestUrl);
-    const supplierId = this.crawlerConfig.customData.supplierId;
 
     const options = {
       method: "POST",
-      uri: `${process.env.BASE_URL}/suppliers/${supplierId}/crawling_data`,
+      uri: `${process.env.BASE_URL}/suppliers/${process.env.SUPPLIER_ID}/crawling_data`,
       body: {
         apify_request_token: process.env.APIFY_REQUEST_TOKEN,
         url: requestUrl,
