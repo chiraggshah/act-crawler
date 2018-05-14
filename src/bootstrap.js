@@ -7,8 +7,6 @@
 import Apify from "apify";
 import _ from "underscore";
 import Promise from "bluebird";
-import path from "path";
-import childProcess from "child_process";
 import eventLoopStats from "event-loop-stats";
 import {
   logInfo,
@@ -31,9 +29,16 @@ import LocalSequentialStore, {
   STATE_KEY as SEQ_STORE_STATE_KEY,
 } from "./modules/local_sequential_store";
 import UrlList, { STATE_KEY as URL_LIST_STATE_KEY } from "./modules/url_list";
-import rp from 'request-promise';
+import { exec } from 'child_process';
 
-const { APIFY_ACT_ID, APIFY_ACT_RUN_ID, NODE_ENV } = process.env;
+const {
+  APIFY_ACT_ID,
+  APIFY_ACT_RUN_ID,
+  NODE_ENV,
+  BASE_URL,
+  SUPPLIER_ID,
+  APIFY_REQUEST_TOKEN,
+} = process.env;
 
 // This catches and logs all unhandled rejects, there are a lot of them for example
 // if page gets closed then opened requests for all assets failes etc.
@@ -41,13 +46,11 @@ process.on("unhandledRejection", err =>
   logError("Unhanled promise rejection", err)
 );
 
-const { exec } = require('child_process');
-
 process.on('exit', code => {
-  console.log(`process exited with code ${code}`);
-  if (code !== 0) {
-    exec(`curl -X POST ${process.env.BASE_URL}/suppliers/${process.env.SUPPLIER_ID}/crawling_status -d status=Error`);
-  }
+  const status = code === 0 ? 'COMPLETED' : 'ERROR';
+
+  exec(`curl -X POST ${BASE_URL}/suppliers/${SUPPLIER_ID}/crawling_status -d status=${status} apify_request_token=${APIFY_REQUEST_TOKEN}`);
+  logInfo(`process exited with code ${code}`);
 });
 
 const INPUT_DEFAULTS = {
@@ -322,29 +325,7 @@ Apify.main(async () => {
   // Apify.setValue() is called asynchronously on events so we need to await all the pending
   // requests.
   await waitForPendingSetValues();
-  await postStatusToAPI("Completed");
 });
-
-const postStatusToAPI = async (status) => {
-  const options = {
-    method: "POST",
-    uri: `${process.env.BASE_URL}/suppliers/${process.env.SUPPLIER_ID}/crawling_status`,
-    body: { status },
-    json: true, // Automatically stringifies the body to JSON
-  };
-
-  console.log(options);
-
-  return rp(options)
-    .then(function(parsedBody) {
-      console.log("STATUS POST SUCCESS");
-      // POST succeeded...
-    })
-    .catch(function(err) {
-      console.log("STATUS POST ERROR: ", err);
-      // POST failed...
-    });
-};
 
 // @TODO: remove - this is attempt to test memory leak
 // TMP test - trying to kill process every 1,5h
