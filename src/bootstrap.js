@@ -38,6 +38,7 @@ const {
   BASE_URL,
   SUPPLIER_ID,
   APIFY_REQUEST_TOKEN,
+  CRAWLER_ID,
 } = process.env;
 
 // This catches and logs all unhandled rejects, there are a lot of them for example
@@ -49,7 +50,7 @@ process.on("unhandledRejection", err =>
 process.on('exit', code => {
   const status = code === 0 ? 'COMPLETED' : 'ERROR';
 
-  exec(`curl -X POST ${BASE_URL}/suppliers/${SUPPLIER_ID}/crawling_status -d status=${status} apify_request_token=${APIFY_REQUEST_TOKEN}`);
+  exec(`curl -X POST ${BASE_URL}/suppliers/${SUPPLIER_ID}/crawling_status -d status=${status} apify_request_token=${APIFY_REQUEST_TOKEN} crawler_id=${CRAWLER_ID}`);
   logInfo(`process exited with code ${code}`);
 });
 
