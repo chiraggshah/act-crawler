@@ -48,7 +48,7 @@ process.on("unhandledRejection", err =>
 );
 
 process.on('exit', code => {
-  const status = code === 0 ? 'COMPLETED' : 'ERROR';
+  const status = code === 0 ? 'successful' : 'failed';
 
   exec(`curl -X PUT ${BASE_URL}/suppliers/${SUPPLIER_ID}/crawler_status/${CRAWLER_ID} -d status=${status} apify_request_token=${APIFY_REQUEST_TOKEN}`);
   logInfo(`process exited with code ${code}`);
