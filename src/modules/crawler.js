@@ -309,12 +309,14 @@ export default class Crawler extends EventEmitter {
   async postToApi(page, requestUrl) {
     const html = await page.content();
     const processedHtml = processHtml(html, requestUrl);
+    const { BASE_URL, SUPPLIER_ID, CRAWLER_ID, APIFY_REQUEST_TOKEN } = process.env;
 
     const options = {
       method: "POST",
-      uri: `${process.env.BASE_URL}/suppliers/${process.env.SUPPLIER_ID}/crawling_data`,
+      uri: `${BASE_URL}/suppliers/${SUPPLIER_ID}/crawling_data`,
       body: {
-        apify_request_token: process.env.APIFY_REQUEST_TOKEN,
+        crawler_id: CRAWLER_ID,
+        apify_request_token: APIFY_REQUEST_TOKEN,
         url: requestUrl,
         html_data: processedHtml,
       },
