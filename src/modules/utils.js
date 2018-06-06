@@ -32,6 +32,11 @@ export const logError = (message, error) => {
       errorMsg.includes("Error: net::ERR_NAME_NOT_RESOLVED")
     ) {
       log(errorMsg, "ERROR");
+    } else if (errorMsg.includes("RequestError")) {
+      delete error["options"];
+      log("!!!!!!!");
+      log(`${message} ${error}`, "ERROR");
+      log("!!!!!!!");
     } else {
       console.log(error); // Prints error stack.
     }
