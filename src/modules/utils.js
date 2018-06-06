@@ -33,10 +33,11 @@ export const logError = (message, error) => {
     ) {
       log(errorMsg, "ERROR");
     } else if (errorMsg.includes("RequestError")) {
-      delete error["options"];
-      log("!!!!!!!");
-      log(`${message} ${error}`, "ERROR");
-      log("!!!!!!!");
+      let failedUrl;
+      if (error && error.options && error.options.body) {
+        failedUrl = error.options.body.url || "";
+      }
+      log(`${message} ${error} url: ${failedUrl}`, "ERROR");
     } else {
       console.log(error); // Prints error stack.
     }
