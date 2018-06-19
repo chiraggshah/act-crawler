@@ -1,5 +1,5 @@
 #!/bin/bash
-if [ $(tail -30000 crawler.log | grep SUCCESS | wc -l) -eq 0 ]
+if [ $(tail -10000 /home/ubuntu/crawler.log | grep SUCCESS | wc -l) -eq 0 ]
 then
   echo "Puppeteer instances stuck"
   for VARIABLE in $(ps aux | grep 'puppeteer' | awk '{print $2}')
